@@ -35,6 +35,22 @@ typedef int __bitwise suspend_state_t;
 #define PM_SUSPEND_MAX		((__force suspend_state_t) 4)
 
 /**
+ * suspend_stats_update - Update success/failure statistics of suspend-to-ram
+ *
+ * @error: Value returned by enter_state() function
+ */
+static inline void suspend_stats_update(int error)
+{
+	if (error) {
+		suspend_stats.fail++;
+		dpm_save_failed_errno(error);
+	} else {
+		suspend_stats.success++;
+	}
+}
+
+
+/**
  * struct platform_suspend_ops - Callbacks for managing platform dependent
  *	system sleep states.
  *
