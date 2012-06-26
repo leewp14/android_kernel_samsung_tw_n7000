@@ -1343,9 +1343,10 @@ static void binder_transaction_buffer_release(struct binder_proc *proc,
 		struct flat_binder_object *fp;
 		if (*offp > buffer->data_size - sizeof(*fp) ||
 		    buffer->data_size < sizeof(*fp) ||
-		    !IS_ALIGNED(*offp, sizeof(u32))) {
-			pr_err("transaction release %d bad offset %zd, size %zd\n",
-			 debug_id, *offp, buffer->data_size);
+		    !IS_ALIGNED(*offp, sizeof(void *))) {
+			pr_err("binder: transaction release %d bad"
+					"offset %zd, size %zd\n", debug_id,
+					*offp, buffer->data_size);
 			continue;
 		}
 		fp = (struct flat_binder_object *)(buffer->data + *offp);
@@ -1367,8 +1368,9 @@ static void binder_transaction_buffer_release(struct binder_proc *proc,
 		case BINDER_TYPE_WEAK_HANDLE: {
 			struct binder_ref *ref = binder_get_ref(proc, fp->handle);
 			if (ref == NULL) {
-				pr_err("transaction release %d bad handle %d\n",
-				 debug_id, fp->handle);
+				pr_err("binder: transaction release %d"
+				       " bad handle %ld\n", debug_id,
+				       fp->handle);
 				break;
 			}
 			binder_debug(BINDER_DEBUG_TRANSACTION,
@@ -1385,8 +1387,8 @@ static void binder_transaction_buffer_release(struct binder_proc *proc,
 			break;
 
 		default:
-			pr_err("transaction release %d bad object type %x\n",
-				debug_id, fp->type);
+			pr_err("binder: transaction release %d bad "
+			       "object type %lx\n", debug_id, fp->type);
 			break;
 		}
 	}
