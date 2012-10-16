@@ -3159,8 +3159,8 @@ static void binder_deferred_release(struct binder_proc *proc)
 
 	binder_release_work(&proc->todo);
 	binder_release_work(&proc->delivered_death);
-
 	buffers = 0;
+
 	while ((n = rb_first(&proc->allocated_buffers))) {
 		struct binder_buffer *buffer;
 
