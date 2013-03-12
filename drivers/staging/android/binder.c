@@ -3138,8 +3138,8 @@ static void binder_deferred_release(struct binder_proc *proc)
 
 	binder_release_work(&proc->todo);
 	binder_release_work(&proc->delivered_death);
-	buffers = 0;
 
+	buffers = 0;
 	while ((n = rb_first(&proc->allocated_buffers))) {
 		struct binder_buffer *buffer;
 
@@ -3171,8 +3171,7 @@ static void binder_deferred_release(struct binder_proc *proc)
 						(unsigned long)proc->pages[i];
 				binder_debug(BINDER_DEBUG_BUFFER_ALLOC,
 					     "binder_release: %d: page %d at %p not freed\n",
-					     proc->pid, i,
-					     page_addr);
+					     proc->pid, i, page_addr);
 				unmap_kernel_range((unsigned long)page_addr,
 					PAGE_SIZE);
 				if (unlikely(!IS_ALIGNED(page_ptr, 4) ||
