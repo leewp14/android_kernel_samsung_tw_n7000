@@ -54,7 +54,7 @@ struct flat_binder_object {
 	/* 8 bytes of data. */
 	union {
 		void __user	*binder;	/* local object */
-		signed long	handle;		/* remote object */
+		__u32	    handle;		/* remote object */
 	};
 
 	/* extra data associated with local object */
@@ -154,7 +154,7 @@ struct binder_ptr_cookie {
 
 struct binder_pri_desc {
 	__s32 priority;
-	__s32 desc;
+	__u32 desc;
 };
 
 struct binder_pri_ptr_cookie {
