@@ -43,11 +43,9 @@ static int sec_bat_set_charge(
 				bool enable)
 {
 	union power_supply_propval val;
-	ktime_t current_time;
 	struct timespec ts;
 
-	current_time = alarm_get_elapsed_realtime();
-	ts = ktime_to_timespec(current_time);
+	get_monotonic_boottime(&ts);
 
 	if (enable) {
 		val.intval = battery->cable_type;
@@ -938,11 +936,9 @@ static bool sec_bat_time_management(
 				struct sec_battery_info *battery)
 {
 	unsigned long charging_time;
-	ktime_t	current_time;
 	struct timespec ts;
 
-	current_time = alarm_get_elapsed_realtime();
-	ts = ktime_to_timespec(current_time);
+	get_monotonic_boottime(&ts);
 
 	if (battery->charging_start_time == 0) {
 		dev_dbg(battery->dev,
