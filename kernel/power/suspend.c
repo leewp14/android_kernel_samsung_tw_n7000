@@ -106,10 +106,7 @@ static int suspend_prepare(void)
 		goto Finish;
 
 	error = suspend_freeze_processes();
-	if (error) {
-		suspend_stats.failed_freeze++;
-		dpm_save_failed_step(SUSPEND_FREEZE);
-	} else
+	if (!error)
 		return 0;
 
 	suspend_thaw_processes();
