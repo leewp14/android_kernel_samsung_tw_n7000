@@ -345,7 +345,6 @@ static ssize_t state_store(struct kobject *kobj, struct kobj_attribute *attr,
 		}
 #else
 		error = enter_state(state);
-		suspend_stats_update(error);
 #endif
 	}
 #endif
